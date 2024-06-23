@@ -28,6 +28,8 @@ Asegúrate de tener instalados los siguientes programas en tu máquina:
     ```
 
     Esto descargará las imágenes de Docker necesarias, construirá los contenedores y ejecutará la aplicación.
+    ATENCIÓN: aun cuando aparezcan como todos los contenedores inicializados, puede que se demore unos segundos en cargar la aplicacion,
+    ya que espera que la base de datos este arriba y seteada antes de iniciarse.
 
 3. Configuración
 
@@ -35,7 +37,7 @@ Asegúrate de tener instalados los siguientes programas en tu máquina:
 
 4. Inicialización de la Base de Datos
 
-    El archivo `init.sql` se utiliza para inicializar la base de datos con las tablas necesarias. Este archivo se monta en el contenedor de MySQL y se ejecuta automáticamente al iniciar el contenedor.
+    El archivo `database.sql` se utiliza para inicializar la base de datos con las tablas necesarias. Este archivo se monta en el contenedor de MySQL y se ejecuta automáticamente al iniciar el contenedor.
 
 
 ## Cambios con respecto a lo solicitado en las instrucciones:
