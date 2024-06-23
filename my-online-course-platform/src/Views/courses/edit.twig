@@ -16,8 +16,8 @@
             <div class="form-group">
                 <label for="status">Estado:</label>
                 <select name="status" id="status" class="form-control">
-                    <option value="active" {% if course.status == 'active' %}selected{% endif %}>Activo</option>
-                    <option value="inactive" {% if course.status == 'inactive' %}selected{% endif %}>Inactivo</option>
+                    <option value="activo" {% if course.status == 'activo' %}selected{% endif %}>Activo</option>
+                    <option value="inactivo" {% if course.status == 'inactivo' %}selected{% endif %}>Inactivo</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Editar Curso</button>

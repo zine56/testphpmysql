@@ -25,3 +25,11 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+/* Agrega cualquier estilo adicional aquí */
+.footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}

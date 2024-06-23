@@ -28,6 +28,7 @@ class AuthController
 
         if ($user && password_verify($password, $user->password)) {
             $_SESSION['user_id'] = $user->id;
+            $_SESSION['user_name'] = $user->name; // Guardar el nombre del usuario en la sesión
             header('Location: /courses');
         } else {
             View::render('auth/login.twig', ['error' => 'Invalid email or password']);
@@ -58,6 +59,7 @@ class AuthController
         ]);
 
         $_SESSION['user_id'] = $user_id;
+        $_SESSION['user_name'] = $name; // Guardar el nombre del usuario en la sesión
         header('Location: /courses');
     }
 

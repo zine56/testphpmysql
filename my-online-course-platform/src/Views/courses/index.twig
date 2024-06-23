@@ -4,10 +4,11 @@
     <div class="col-md-10 offset-md-1">
         <h2>Cursos</h2>
         <a href="/courses/create" class="btn btn-primary mb-3">Crear Nuevo Curso</a>
-        <table class="table table-bordered">
+        <table id="coursesTable" class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Titulo</th>
+                    <th>Título</th>
+                    <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -15,12 +16,13 @@
                 {% for course in courses %}
                 <tr>
                     <td>{{ course.title }}</td>
+                    <td>{{ course.status }}</td>
                     <td>
                         <a href="/courses/{{ course.id }}" class="btn btn-info">Ver</a>
-                        <a href="/courses/{{ course.id }}/edit" class="btn btn-secondary">Editar</a>
-                        <form method="post" action="/courses/{{ course.id }}/delete" style="display:inline;">
-                            <button type="submit" class="btn btn-danger">Borrar</button>
-                        </form>
+                        {% if course.user_id == session.user_id %}
+                            <a href="/courses/{{ course.id }}/edit" class="btn btn-secondary">Editar</a>
+                            <button type="button" class="btn btn-danger delete-course" data-course-id="{{ course.id }}">Eliminar</button>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
@@ -28,5 +30,56 @@
         </table>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este curso?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var courseId;
+
+        $('#coursesTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+            }
+        });
+
+        $('.delete-course').click(function() {
+            courseId = $(this).data('course-id');
+            $('#deleteModal').modal('show');
+        });
+
+        $('#confirmDelete').click(function() {
+            $.ajax({
+                url: '/courses/' + courseId + '/delete',
+                type: 'POST',
+                success: function(result) {
+                    window.location.href = '/courses';
+                },
+                error: function(err) {
+                    alert('Error al eliminar el curso');
+                }
+            });
+        });
+    });
+</script>
 
 {% include 'layouts/footer.twig' %}

@@ -19,4 +19,5 @@ return function (FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/courses/{id:\d+}/edit', [CourseController::class, 'edit']);
     $r->addRoute('POST', '/courses/{id:\d+}', [CourseController::class, 'update']);
     $r->addRoute('POST', '/courses/{id:\d+}/delete', [CourseController::class, 'destroy']);
+
 };
