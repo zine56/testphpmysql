@@ -40,7 +40,9 @@ Asegúrate de tener instalados los siguientes programas en tu máquina:
 
 ## Cambios con respecto a lo solicitado en las instrucciones:
 
-1. Consideré que es mejor usar ruteo que usar archivos php directamente, asi que implemente aquello
+1. Consideré que es mejor usar ruteo que usar archivos php directamente, asi que implemente aquello en vez de tener paginas aparte en el public 
+y controladores por otra parte como sugerían las instrucciones, ahora el public solo tiene el ruteo en el index, y la logica esta como en toda aplicación MVC
+dentro de los controladores.
 2. agregue el template engine de symfony (twig) para lidiar con el html
 3. en las funcionalidad se asume que la creacion, edicion y visualizacion de la data del curso es una pagina aparte, sin embargo consideré
 que siendo esta una prueba que pedía bootstrap y jquery, el objetivo estaba mejor servido utilizando eventos y modales en vez de hacerlo salir
