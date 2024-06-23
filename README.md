@@ -1,2 +1,0 @@
-# testphpmysql
-prueba tecnica
