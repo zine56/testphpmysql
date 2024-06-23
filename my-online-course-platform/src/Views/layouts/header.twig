@@ -22,10 +22,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
+                    {% if session.user_id is defined %}
+                    <li class="nav-item"><a class="nav-link disabled" href="#">Hola {{ session.user_name }} |</a></li>
+                    {% endif %}
                     <li class="nav-item"><a class="nav-link" href="/courses">Home</a></li>
                     {% if session.user_id is defined %}
                         <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
-                        <li class="nav-item"><a class="nav-link disabled" href="#">{{ session.user_name }}</a></li>
                     {% else %}
                         <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
                     {% endif %}

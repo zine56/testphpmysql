@@ -4,6 +4,7 @@ use App\Controllers\AuthController;
 use App\Controllers\CourseController;
 
 return function (FastRoute\RouteCollector $r) {
+    
     // Rutas de autenticación
     $r->addRoute('GET', '/login', [AuthController::class, 'showLoginForm']);
     $r->addRoute('POST', '/login', [AuthController::class, 'login']);
