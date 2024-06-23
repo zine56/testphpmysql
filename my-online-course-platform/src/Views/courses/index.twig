@@ -1,33 +1,35 @@
 {% include 'layouts/header.twig' %}
 
-<div class="row">
-    <div class="col-md-10 offset-md-1">
-        <h2>Cursos</h2>
-        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#createCourseModal">Crear Nuevo Curso</button>
-        <table id="coursesTable" class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Título</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for course in courses %}
-                <tr>
-                    <td>{{ course.title }}</td>
-                    <td>{{ course.status }}</td>
-                    <td>
-                        <button type="button" class="btn btn-info view-course" data-course-id="{{ course.id }}">Ver</button>
-                        {% if course.user_id == session.user_id %}
-                            <a href="/courses/{{ course.id }}/edit" class="btn btn-secondary">Editar</a>
-                            <button type="button" class="btn btn-danger delete-course" data-course-id="{{ course.id }}">Eliminar</button>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="main-content-container"> 
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <h2>Cursos</h2>
+            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#createCourseModal">Crear Nuevo Curso</button>
+            <table id="coursesTable" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in courses %}
+                    <tr>
+                        <td>{{ course.title }}</td>
+                        <td>{{ course.status }}</td>
+                        <td>
+                            <button type="button" class="btn btn-info view-course" data-course-id="{{ course.id }}">Ver</button>
+                            {% if course.user_id == session.user_id %}
+                                <a href="/courses/{{ course.id }}/edit" class="btn btn-secondary">Editar</a>
+                                <button type="button" class="btn btn-danger delete-course" data-course-id="{{ course.id }}">Eliminar</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
