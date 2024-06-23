@@ -1,0 +1,20 @@
+{% include 'layouts/header.twig' %}
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <a href="javascript:history.back()" class="btn btn-secondary mb-3">Volver</a>
+        <h2>Detalles Curso</h2>
+        <p><strong>Titulo:</strong> {{ course.title }}</p>
+        <p><strong>Descripcion:</strong> {{ course.description }}</p>
+        <p><strong>Estado:</strong> {{ course.status }}</p>
+
+        {% if session.user_id == course.user_id %}
+            <a href="/courses/{{ course.id }}/edit" class="btn btn-secondary">Editar</a>
+            <form method="post" action="/courses/{{ course.id }}/delete" style="display:inline;">
+                <button type="submit" class="btn btn-danger">Borrar</button>
+            </form>
+        {% endif %}
+    </div>
+</div>
+
+{% include 'layouts/footer.twig' %}

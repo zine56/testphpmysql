@@ -2,12 +2,13 @@ version: '3.8'
 
 services:
   web:
-    image: php:8.0-apache
+    build: .
     container_name: php-web
     volumes:
       - ./public:/var/www/html
       - ./src:/var/www/src
       - ./config/php.ini:/usr/local/etc/php/php.ini
+      - ./public/.htaccess:/var/www/html/.htaccess
     ports:
       - "80:80"
     depends_on:

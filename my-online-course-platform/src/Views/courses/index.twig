@@ -1,0 +1,32 @@
+{% include 'layouts/header.twig' %}
+
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <h2>Cursos</h2>
+        <a href="/courses/create" class="btn btn-primary mb-3">Crear Nuevo Curso</a>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Titulo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                <tr>
+                    <td>{{ course.title }}</td>
+                    <td>
+                        <a href="/courses/{{ course.id }}" class="btn btn-info">Ver</a>
+                        <a href="/courses/{{ course.id }}/edit" class="btn btn-secondary">Editar</a>
+                        <form method="post" action="/courses/{{ course.id }}/delete" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Borrar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% include 'layouts/footer.twig' %}
