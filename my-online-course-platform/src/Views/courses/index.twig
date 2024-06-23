@@ -18,7 +18,7 @@
                     <td>{{ course.title }}</td>
                     <td>{{ course.status }}</td>
                     <td>
-                        <a href="/courses/{{ course.id }}" class="btn btn-info">Ver</a>
+                        <button type="button" class="btn btn-info view-course" data-course-id="{{ course.id }}">Ver</button>
                         {% if course.user_id == session.user_id %}
                             <a href="/courses/{{ course.id }}/edit" class="btn btn-secondary">Editar</a>
                             <button type="button" class="btn btn-danger delete-course" data-course-id="{{ course.id }}">Eliminar</button>
@@ -34,6 +34,7 @@
 
 {% include 'modals/create_course_modal.twig' %}
 {% include 'modals/confirm_delete_modal.twig' %}
+{% include 'modals/view_course_modal.twig' %}
 
 <script src="/assets/js/courses/index.js"></script>
 

@@ -5,21 +5,8 @@ require '../vendor/autoload.php';
 use FastRoute\RouteCollector;
 
 $dispatcher = FastRoute\simpleDispatcher(function (RouteCollector $r) {
-    // Rutas de autenticación
-    $r->addRoute('GET', '/login', [\App\Controllers\AuthController::class, 'showLoginForm']);
-    $r->addRoute('POST', '/login', [\App\Controllers\AuthController::class, 'login']);
-    $r->addRoute('GET', '/register', [\App\Controllers\AuthController::class, 'showRegisterForm']);
-    $r->addRoute('POST', '/register', [\App\Controllers\AuthController::class, 'register']);
-    $r->addRoute('GET', '/logout', [\App\Controllers\AuthController::class, 'logout']);
-
-    // Rutas de gestión de cursos (protegidas)
-    $r->addRoute('GET', '/courses', [\App\Controllers\CourseController::class, 'index']);
-    $r->addRoute('GET', '/courses/create', [\App\Controllers\CourseController::class, 'create']);
-    $r->addRoute('POST', '/courses', [\App\Controllers\CourseController::class, 'store']);
-    $r->addRoute('GET', '/courses/{id:\d+}', [\App\Controllers\CourseController::class, 'show']);
-    $r->addRoute('GET', '/courses/{id:\d+}/edit', [\App\Controllers\CourseController::class, 'edit']);
-    $r->addRoute('POST', '/courses/{id:\d+}', [\App\Controllers\CourseController::class, 'update']);
-    $r->addRoute('POST', '/courses/{id:\d+}/delete', [\App\Controllers\CourseController::class, 'destroy']);
+    $routes = require '../src/routes.php';
+    $routes($r);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];
@@ -53,6 +40,7 @@ switch ($routeInfo[0]) {
         $handler = $routeInfo[1];
         $vars = $routeInfo[2];
         [$controller, $method] = $handler;
-        (new $controller)->$method($vars);
+        $controllerInstance = new $controller();
+        call_user_func_array([$controllerInstance, $method], [$vars]);
         break;
 }

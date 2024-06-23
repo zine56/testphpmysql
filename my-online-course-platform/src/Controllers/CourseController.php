@@ -31,19 +31,23 @@ class CourseController
         $user_id = $_SESSION['user_id'];
 
         Course::create([
-            'user_id' => $user_id,
             'title' => $title,
             'description' => $description,
-            'status' => $status
+            'status' => $status,
+            'user_id' => $user_id
         ]);
 
-        header('Location: /courses');
+        header('Content-Type: application/json');
+        echo json_encode(['message' => 'Curso creado con éxito']);
     }
 
-    public function show($id)
+    public function show($vars)
     {
+        $id = $vars['id'];
         $course = Course::find($id);
-        View::render('courses/view.twig', ['course' => $course]);
+
+        header('Content-Type: application/json');
+        echo json_encode($course);
     }
 
     public function edit($id)
@@ -64,10 +68,27 @@ class CourseController
         header('Location: /courses/' . $id);
     }
 
-    public function destroy($id)
+    public function destroy($vars)
     {
+        $id = $vars['id'];
         $course = Course::find($id);
+
+        if (!$course) {
+            header('HTTP/1.0 404 Not Found');
+            echo json_encode(['message' => 'Curso no encontrado']);
+            exit();
+        }
+
+        if ($course->user_id != $_SESSION['user_id']) {
+            header('HTTP/1.0 403 Forbidden');
+            echo json_encode(['message' => 'No tienes permiso para eliminar este curso']);
+            exit();
+        }
+        error_log("Deleting course ID: " . $course->id);
+
         $course->delete();
-        header('Location: /courses');
+
+        header('Content-Type: application/json');
+        echo json_encode(['message' => 'Curso eliminado con éxito']);
     }
 }
