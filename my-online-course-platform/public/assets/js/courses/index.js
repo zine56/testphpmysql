@@ -25,6 +25,25 @@ $(document).ready(function() {
         });
     });
 
+       // Handle edit course button click
+       $('.edit-course').click(function() {
+        courseId = $(this).data('course-id');
+        $.ajax({
+            url: '/courses/' + courseId,
+            type: 'GET',
+            success: function(course) {
+                $('#editCourseId').val(course.id);
+                $('#editCourseTitle').val(course.title);
+                $('#editCourseDescription').val(course.description);
+                $('#editCourseStatus').val(course.status);
+                $('#editCourseModal').modal('show');
+            },
+            error: function(err) {
+                alert('Error al obtener los detalles del curso');
+            }
+        });
+    });
+
     $('#saveCourse').click(function() {
         var courseData = $('#editCourseForm').serialize();
         $.ajax({
@@ -37,6 +56,27 @@ $(document).ready(function() {
             },
             error: function(err) {
                 alert('Error al actualizar el curso');
+            }
+        });
+    });
+
+    $('#saveCourseChanges').click(function() {
+        var formData = {
+            id: $('#editCourseId').val(),
+            title: $('#editCourseTitle').val(),
+            description: $('#editCourseDescription').val(),
+            status: $('#editCourseStatus').val()
+        };
+        $.ajax({
+            url: '/courses/' + formData.id,
+            type: 'POST',
+            data: formData,
+            success: function(result) {
+                $('#editCourseModal').modal('hide');
+                window.location.reload();
+            },
+            error: function(err) {
+                alert('Error al guardar los cambios del curso');
             }
         });
     });

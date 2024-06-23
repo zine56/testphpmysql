@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\DB;
+use mysqli_sql_exception;
 
 class User
 {
@@ -18,8 +19,15 @@ class User
         $sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sss", $data['name'], $data['email'], $data['password']);
-        $stmt->execute();
-        return $conn->insert_id;
+        try {
+            $stmt->execute();
+            return $conn->insert_id;
+        } catch (mysqli_sql_exception $e) {
+            if ($e->getCode() == 1062) { // Duplicate entry
+                return ['error' => 'Email ya existe.'];
+            }
+            throw $e;
+        }
     }
 
     public static function where($field, $value)

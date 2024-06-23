@@ -56,17 +56,18 @@ class CourseController
         View::render('courses/edit.twig', ['course' => $course]);
     }
 
+
     public function update($id)
     {
-        $course = Course::find($id);
-
+        $course = Course::find($_POST['id']);
         $course->title = $_POST['title'];
         $course->description = $_POST['description'];
         $course->status = $_POST['status'];
         $course->save();
-
-        header('Location: /courses/' . $id);
+        echo json_encode(['status' => 'success']);
     }
+
+
 
     public function destroy($vars)
     {

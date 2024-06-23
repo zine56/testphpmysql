@@ -31,7 +31,7 @@ class AuthController
             $_SESSION['user_name'] = $user->name; // Guardar el nombre del usuario en la sesión
             header('Location: /courses');
         } else {
-            View::render('auth/login.twig', ['error' => 'Invalid email or password']);
+            View::render('auth/login.twig', ['error' => 'Email o Password Invalido']);
         }
     }
 
@@ -47,19 +47,33 @@ class AuthController
 
     public function register()
     {
+        if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['password'])) {
+            View::render('auth/register.twig', [
+                'error' => 'Por favor, complete todos los campos.'
+            ]);
+            return;
+        }
+        $data = [
+            'name' => $_POST['name'],
+            'email' => $_POST['email'],
+            'password' => $_POST['password']
+        ];
+        $data['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $result = User::create($data);
+
+
+        if (isset($result['error'])) {
+            View::render('auth/register.twig', [
+                'error' => $result['error']
+            ]);
+            return;
+        }
+
         session_start();
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-        $user_id = User::create([
-            'name' => $name,
-            'email' => $email,
-            'password' => $password
-        ]);
+        $_SESSION['user_id'] = $result;
+        $_SESSION['user_name'] = $data['name']; // Guardar el nombre del usuario en la sesión
 
-        $_SESSION['user_id'] = $user_id;
-        $_SESSION['user_name'] = $name; // Guardar el nombre del usuario en la sesión
         header('Location: /courses');
     }
 

@@ -19,6 +19,7 @@ COPY src/ /var/www/src/
 COPY config/php.ini /usr/local/etc/php/php.ini
 COPY composer.json /var/www/
 COPY composer.lock /var/www/
+COPY wait-for-it.sh /usr/local/bin/wait-for-it.sh
 
 # Crear el directorio de caché y asignar permisos
 RUN mkdir -p /var/www/cache && chmod -R 777 /var/www/cache
@@ -29,3 +30,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # Permite la ejecución de Composer como superusuario y luego instala las dependencias
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install
+
+ENTRYPOINT ["wait-for-it.sh", "db:3306", "--", "docker-php-entrypoint"]
+CMD ["apache2-foreground"]
