@@ -23,11 +23,6 @@ class CourseController
         View::render('courses/index.twig', ['courses' => $courses]);
     }
 
-    public function create()
-    {
-        View::render('courses/create.twig');
-    }
-
     public function store()
     {
         $title = $_POST['title'];

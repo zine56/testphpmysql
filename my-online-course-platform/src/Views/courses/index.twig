@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-10 offset-md-1">
         <h2>Cursos</h2>
-        <a href="/courses/create" class="btn btn-primary mb-3">Crear Nuevo Curso</a>
+        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#createCourseModal">Crear Nuevo Curso</button>
         <table id="coursesTable" class="table table-bordered">
             <thead>
                 <tr>
@@ -31,55 +31,10 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Confirmar Eliminación</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ¿Estás seguro de que deseas eliminar este curso?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" id="confirmDelete">Eliminar</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-<script>
-    $(document).ready(function() {
-        var courseId;
+{% include 'modals/create_course_modal.twig' %}
+{% include 'modals/confirm_delete_modal.twig' %}
 
-        $('#coursesTable').DataTable({
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-            }
-        });
-
-        $('.delete-course').click(function() {
-            courseId = $(this).data('course-id');
-            $('#deleteModal').modal('show');
-        });
-
-        $('#confirmDelete').click(function() {
-            $.ajax({
-                url: '/courses/' + courseId + '/delete',
-                type: 'POST',
-                success: function(result) {
-                    window.location.href = '/courses';
-                },
-                error: function(err) {
-                    alert('Error al eliminar el curso');
-                }
-            });
-        });
-    });
-</script>
+<script src="/assets/js/courses/index.js"></script>
 
 {% include 'layouts/footer.twig' %}
